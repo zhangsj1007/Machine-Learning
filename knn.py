@@ -1,4 +1,5 @@
 import operator;
+import os;
 import numpy;
 import matplotlib.pyplot as plt;
 
@@ -66,10 +67,50 @@ def datingClassTest():
     print("Error rate is %f" % errorRate)
 
 
+def img2Vec(fileName):
+    retMat = numpy.zeros((1, 1024))
+    fr = open(fileName)
+    for i in range(32) :
+        lineStr = fr.readline()
+        for j in range(32) :
+            retMat[0,32 * i + j] = int(lineStr[j])
+    return retMat
+
+def handWritingClassTest() :
+    hwLabels = []
+    writingFileList = os.listdir('/Users/songjianzhang/Code/machinelearninginaction/Ch02/digits/trainingDigits')
+    m = len(writingFileList)
+    trainingMat = numpy.zeros((m, 1024))
+    for i in range(m) :
+        fileNameStr = writingFileList[i]
+        fileName = fileNameStr.split('.')[0]
+        className = int(fileName.split('_')[0])
+        hwLabels.append(className)
+        trainingMat[i, : ] = img2Vec('/Users/songjianzhang/Code/machinelearninginaction/Ch02/digits/trainingDigits/%s' % fileNameStr)
+
+    testWritingFileList = os.listdir('/Users/songjianzhang/Code/machinelearninginaction/Ch02/digits/testDigits')
+    sum = len(testWritingFileList)
+    errorCnt = 0
+    for i in range(sum) :
+        testFileNameStr = testWritingFileList[i]
+        testFileName = testFileNameStr.split('.')[0]
+        testClassName = int(testFileName.split('_')[0])
+        vectorUnderTest = img2Vec('/Users/songjianzhang/Code/machinelearninginaction/Ch02/digits/testDigits/%s' % testFileNameStr)
+        classfierResult = classify0(vectorUnderTest, trainingMat, hwLabels, 3)
+        if classfierResult != testClassName :
+            errorCnt += 1
+            print "The classifier came back with %d, the real class is %d." % (classfierResult, testClassName)
+    print "\nTotal num of errors is %d." % errorCnt
+    print "\nError rate is %f." % (errorCnt / float(sum))
+
+
+
+
 
 
 if __name__ == '__main__' :
-    datingClassTest()
+    #datingClassTest()
+    handWritingClassTest()
 
 
 
