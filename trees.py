@@ -1,4 +1,5 @@
 import math;
+import operator;
 
 def calcShannonEnt (dataset) :
     numEntries = len(dataset)
@@ -53,6 +54,35 @@ def chooseBestFeatureToSplit(dataset) :
             bestFeature = i
 
     return bestFeature
+
+def majorityCnt(classLst) :
+    classCnt = {}
+    for vote in classLst :
+        if vote not in classCnt.keys() :
+            classCnt[vote] = 0
+        classCnt[vote] += 1
+    sortedClassCnt = sorted (classCnt, key = operator.itemgetter(1), reverse = True)
+    return sortedClassCnt[0][0]
+
+def createTree (dataset, labels) :
+    classLst = [example[-1] for example in dataset]
+    if classLst.count(classLst[0]) == len(classLst) :
+        return classLst
+    if len(dataset[0]) == 1 :
+        return majorityCnt(classLst)
+    bestFeature = chooseBestFeatureToSplit(dataset)
+    bestFeatureLabel = labels[bestFeature]
+    myTree = {bestFeatureLabel : {}}
+    del(labels[bestFeature])
+    featureValues = [example[bestFeature] for example in dataset]
+    uniqueValues = set (featureValues)
+    for value in uniqueValues :
+        subLabels = labels[ : ]
+        myTree[value] = createTree(splitDataSet(dataset, bestFeature, value), subLabels)
+
+    return myTree
+
+
 
 if __name__ == '__main__' :
     dataset, labels = createDataset()
