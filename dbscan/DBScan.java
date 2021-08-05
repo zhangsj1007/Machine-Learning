@@ -1,11 +1,11 @@
-package com.sogou.map.kpi_monitor.monitor.algorithm;
+package com.chris.algorithm;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.sogou.map.kpi_monitor.monitor.algorithm.DBScanPath.DBScanLink;
+import com.chris.algorithm.DBScanPath.DBScanLink;
  
 public class DBScan {
 	private static double _calDistance(DBScanPath path1, DBScanPath path2) {

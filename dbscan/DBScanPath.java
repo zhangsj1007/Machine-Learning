@@ -1,11 +1,9 @@
-package com.sogou.map.kpi_monitor.monitor.algorithm;
+package com.chris.algorithm;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.stylesheets.LinkStyle;
-
-import com.sogou.map.kpi_monitor.data.CorporateName;
+import com.chris.data.CorporateName;
 
 
 public class DBScanPath{
